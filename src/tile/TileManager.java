@@ -78,46 +78,51 @@ public class TileManager {
 				}
 			}
 			br.close();
-		} catch (Exception e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
 
 	public void draw(Graphics2D g2) {
-		int worldCol = 0;
-		int worldRow = 0;
+		try {
+			int worldCol = 0;
+			int worldRow = 0;
 
-		while (worldCol < gp.dim.maxWorldCol && worldRow < gp.dim.maxWorldRow) {
-			int tileNum = mapTileNum[worldCol][worldRow];
+			while (worldCol < gp.dim.maxWorldCol && worldRow < gp.dim.maxWorldRow) {
+				int tileNum = mapTileNum[worldCol][worldRow];
 
-			// coordinate della mappa
-			int worldX = worldCol * gp.dim.grandezzaInGioco;
-			int worldY = worldRow * gp.dim.grandezzaInGioco;
+				// coordinate della mappa
+				int worldX = worldCol * gp.dim.grandezzaInGioco;
+				int worldY = worldRow * gp.dim.grandezzaInGioco;
 
-			// coordinate dello schermo
-			int screenX = worldX - gp.player.worldX + gp.player.screenX;
-			int screenY = worldY - gp.player.worldY + gp.player.screenY;
+				// coordinate dello schermo
+				int screenX = worldX - gp.player.worldX + gp.player.screenX;
+				int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
-			// differenza tra altezza/lunghezza dello schermo e i loro valori di default
-			int d1 = gp.player.defaultScreenX - gp.player.screenX;
-			int d2 = gp.player.defaultScreenY - gp.player.screenY;
+				// differenza tra altezza/lunghezza dello schermo e i loro valori di default
+				int d1 = gp.player.defaultScreenX - gp.player.screenX;
+				int d2 = gp.player.defaultScreenY - gp.player.screenY;
 
-			if (worldX + gp.dim.grandezzaInGioco > (gp.player.worldX - gp.player.defaultScreenX) + d1
-					&& worldX - gp.dim.grandezzaInGioco < (gp.player.worldX + gp.player.defaultScreenX) + d1
-					&& worldY + gp.dim.grandezzaInGioco > (gp.player.worldY - gp.player.defaultScreenY) + d2
-					&& worldY - gp.dim.grandezzaInGioco < (gp.player.worldY + gp.player.defaultScreenY) + d2)
-				g2.drawImage(tile[tileNum].image, screenX, screenY, gp.dim.grandezzaInGioco, gp.dim.grandezzaInGioco,
-						null);
+				if (worldX + gp.dim.grandezzaInGioco > (gp.player.worldX - gp.player.defaultScreenX) + d1
+						&& worldX - gp.dim.grandezzaInGioco < (gp.player.worldX + gp.player.defaultScreenX) + d1
+						&& worldY + gp.dim.grandezzaInGioco > (gp.player.worldY - gp.player.defaultScreenY) + d2
+						&& worldY - gp.dim.grandezzaInGioco < (gp.player.worldY + gp.player.defaultScreenY) + d2)
+					g2.drawImage(tile[tileNum].image, screenX, screenY, gp.dim.grandezzaInGioco,
+							gp.dim.grandezzaInGioco, null);
 
-			worldCol++;
+				worldCol++;
 
-			if (worldCol == gp.dim.maxWorldCol) {
-				worldCol = 0;
+				if (worldCol == gp.dim.maxWorldCol) {
+					worldCol = 0;
 
-				worldRow++;
+					worldRow++;
 
+				}
 			}
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			System.exit(1);
 		}
 	}
 
