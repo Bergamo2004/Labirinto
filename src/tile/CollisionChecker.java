@@ -2,12 +2,15 @@ package tile;
 
 import entity.Entity;
 import view.PanelloDiGioco;
+import controllo.*;
 
 public class CollisionChecker {
 	PanelloDiGioco pg;
+	Comandi com;
 
-	public CollisionChecker(PanelloDiGioco gp) {
+	public CollisionChecker(PanelloDiGioco gp, Comandi com) {
 		this.pg = gp;
+		this.com = com;
 	}
 
 	public void checkTile(Entity entity) {
@@ -24,8 +27,7 @@ public class CollisionChecker {
 
 		int tileNum1, tileNum2;
 		try {
-			switch (entity.direzione) {
-			case "su":
+			if (com.suPremuto) {
 				entityTopRow = (entityTopWorldY - entity.speed) / pg.dim.grandezzaInGioco;
 				tileNum1 = pg.tm.mapTileNum[entityLeftCol][entityTopRow];
 				tileNum2 = pg.tm.mapTileNum[entityRightCol][entityTopRow];
@@ -33,8 +35,8 @@ public class CollisionChecker {
 					entity.collisionOn = true;
 					entity.collisionDirection = "su";
 				}
-				break;
-			case "giu":
+			}
+			if (com.giuPremuto) {
 				entityBottomRow = (entityBottomWorldY + entity.speed) / pg.dim.grandezzaInGioco;
 				tileNum1 = pg.tm.mapTileNum[entityLeftCol][entityBottomRow];
 				tileNum2 = pg.tm.mapTileNum[entityRightCol][entityBottomRow];
@@ -42,8 +44,8 @@ public class CollisionChecker {
 					entity.collisionOn = true;
 					entity.collisionDirection = "giu";
 				}
-				break;
-			case "destra":
+			}
+			if (com.destraPremuto) {
 				entityRightCol = (entityRightWorldX + entity.speed) / pg.dim.grandezzaInGioco;
 				tileNum1 = pg.tm.mapTileNum[entityRightCol][entityTopRow];
 				tileNum2 = pg.tm.mapTileNum[entityRightCol][entityBottomRow];
@@ -51,8 +53,8 @@ public class CollisionChecker {
 					entity.collisionOn = true;
 					entity.collisionDirection = "destra";
 				}
-				break;
-			case "sinistra":
+			}
+			if (com.sinistraPremuto) {
 				entityLeftCol = (entityLeftWorldX - entity.speed) / pg.dim.grandezzaInGioco;
 				tileNum1 = pg.tm.mapTileNum[entityLeftCol][entityTopRow];
 				tileNum2 = pg.tm.mapTileNum[entityLeftCol][entityBottomRow];
@@ -60,12 +62,10 @@ public class CollisionChecker {
 					entity.collisionOn = true;
 					entity.collisionDirection = "sinistra";
 				}
-				break;
-
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
 			double d1 = pg.dim.grandezzaInGioco * 24.5;
-			
+
 			entity.worldX = (int) d1;
 			entity.worldY = (int) d1;
 		}
