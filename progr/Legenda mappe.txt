@@ -1,0 +1,11 @@
+verde==erba
+
+bianco==sabbia
+
+nero==muro
+
+rosso==albero
+
+giallo==terra
+
+blue==acqua
