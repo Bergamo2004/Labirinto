@@ -23,7 +23,7 @@ public class Editor {
             });  
             JScrollPane sp=new JScrollPane(jt);    
             f.add(sp);  
-            f.setSize(300, 200);  
+            f.setSize(900, 865);  
             f.setVisible(true);  
           }  
         }
