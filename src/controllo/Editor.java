@@ -4,7 +4,8 @@ import java.awt.Color;
 import java.awt.Frame;
 
 import javax.swing.*;    
-import javax.swing.event.*;  
+import javax.swing.event.*;
+import javax.swing.table.DefaultTableModel;  
 public class Editor {    
       public static void main(String[] a) {  
             JFrame f = new JFrame("prova tabella");          
@@ -20,10 +21,22 @@ public class Editor {
                 for (int i = 0; i < row.length; i++) {  
                   for (int j = 0; j < columns.length; j++) {  
                    Data = (String) jt.getValueAt(row[i], columns[j]);  
+                   String[][] data = getTableData();
+                   String[] cols = getTableCols();
+
                     
-                    Color rosso=new Color(255,0,0);
-                    jt.setBackground(rosso);
                     
+                    
+                   jt.setCellSelectionEnabled(true);
+                    
+
+                   /* CustomRenderer Renderer = new CustomRenderer();  
+
+                    DefaultTableModel defModel = new DefaultTableModel(data, cols);
+                    JTable jt = new JTable(defModel);
+
+                    jt.setDefaultRenderer(Object.class, Renderer);
+                    */
                     
                   } }  
                 System.out.println("L'elemento selezionato: " + Data);    
@@ -33,6 +46,36 @@ public class Editor {
             f.add(sp);  
             f.setSize(900, 865);  
             f.setVisible(true);  
-          }  
-        }
+          }
 
+	protected static String[] getTableCols() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	protected static String[][] getTableData() {
+		// TODO Auto-generated method stub
+		return null;
+	}  
+        }
+//Color rosso=new Color(255,0,0);
+//jt.setBackground(rosso);
+
+
+/* public void changeTable(JTable table, int column_index) {
+        table.getColumnModel().getColumn(column_index).setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                int st_val = Integer.parseInt(table.getValueAt(row, 2).toString());
+                int req_val = 2000;
+                if (st_val < req_val) {
+                    c.setBackground(Color.MAGENTA);
+                } else {
+                    c.setBackground(Color.GREEN);
+                }
+                return c;
+            }
+        });
+    }
+    */
