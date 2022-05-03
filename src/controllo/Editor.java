@@ -3,6 +3,7 @@ package controllo;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Frame;
+import java.awt.Image;
 
 import javax.swing.*;    
 import javax.swing.event.*;
@@ -13,27 +14,61 @@ import java.awt.FlowLayout;
 public class Editor {
       public static void main(String[] a) {  
             JFrame f = new JFrame("prova tabella");          
-                            final  JTable jt=new JTable(50,50);    
+                              
+                            
+                            
+        	ImageIcon icon = new ImageIcon("C:\\Users\\jackv\\Documents\\GitHub\\Labirinto\\res\\tiles\\Tree.png");
+
+            Object [][] data = new Object [50][50];
+
+
+            DefaultTableModel model = new DefaultTableModel(data,50);
+            JTable jt = new JTable(model) {
+              public Class getColumnClass(int column) {
+                return (column == 0) ? Icon.class : Object.class;
+              }
+            };
+                            
+
+  
+                            
+
+                           
+                            
+                            
             jt.setCellSelectionEnabled(true);  
             ListSelectionModel select= jt.getSelectionModel();  
             select.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);  
             select.addListSelectionListener(new ListSelectionListener() {  
               public void valueChanged(ListSelectionEvent e) {  
-                String Data = null;  
-                int[] row = jt.getSelectedRows();  
-                int[] columns = jt.getSelectedColumns();  
-                for (int i = 0; i < row.length; i++) {  
-                  for (int j = 0; j < columns.length; j++) {  
-                   Data = (String) jt.getValueAt(row[i], columns[j]);  
-                   String[][] data = getTableData();
-                   String[] cols = getTableCols();
+
+                int riga=jt.getSelectedRow();
+                int colonna=jt.getSelectedColumn();          
+                for (int i = 0; i <= 50; i++) {  
+                  for (int j = 0; j <= 50; j++) {  
+                	  data[riga][colonna] = icon;
                    jt.setCellSelectionEnabled(true);
-                 
+
+
+
+              
                   } }  
-                System.out.println("L'elemento selezionato: " + Data);    
-                changeTable(jt,columns.length);
-              }       
+                System.out.println("L'elemento selezionato: ");    
+               // changeTable(jt,columns.length);
+              }      
             });  
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
             f.getContentPane().setLayout(new BoxLayout(f.getContentPane(), BoxLayout.X_AXIS));
             JScrollPane sp=new JScrollPane(jt);    
             f.getContentPane().add(sp);
@@ -78,17 +113,18 @@ public class Editor {
 		// TODO Auto-generated method stub
 		return null;
 	}  
+}
 	
 	
 	
 	
-	
-    public static void changeTable(JTable table, int column_index) {
+  /*  public static void changeTable(JTable table, int column_index) {
         table.getColumnModel().getColumn(column_index).setCellRenderer(new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                    c.setBackground(Color.GREEN);             
+                    c.setBackground(Color.GREEN);  
+                    
                 return c;
             }
         });
@@ -106,7 +142,7 @@ class MyTableCellRenderer extends DefaultTableCellRenderer {
 	
 	
 	
-	
+	*/
 	
 	
 	
@@ -143,29 +179,45 @@ class MyTableCellRenderer extends DefaultTableCellRenderer {
 
 
 /*
-public void loading() {
-try {
-    String[]title = {"First Name","Last Name","Picture"};
-    String sql="select * from users";
-    model = new DefaultTableModel(null,title){
-        @Override
-        public Class<?> getColumnClass(int column) {
-            if (column==2) return ImageIcon.class;
-            return Object.class;
-        }
-    }
-    st = conn.createStatement();
-    ResultSet rs = st.executeQuery(sql);
-    Object[]fila = new Object[4];
-    while(rs.next()){
-        fila[0] = rs.getString("fna");
-        fila[1] = rs.getString("lna");
-        fila[2] = new ImageIcon(rs.getBytes("pic"));            
-        model.addRow(fila);
-    }
-    tbl.setModel(model);
-}
-catch (SQLException e) {
-    JOptionPane.showMessageDialog(null, e.getMessage());
+import javax.swing.*;
+import java.awt.*;
+import javax.swing.table.DefaultTableModel;
+public class Main extends JFrame 
+{
+  public Main() 
+  {
+    //Headers for JTable 
+    String[] columns = {"Id", "Name", "Address", "Image"};
+    //data for JTable in a 2D table
+    Object[][] data = {
+      {1, "Thomas", "Alaska", new ImageIcon("user1.png") },
+      {2, "Jean", "Arizona", new ImageIcon("user2.png") },
+      {3, "Yohan", "California", new ImageIcon("user3.png") },
+      {4, "Emily", "Florida", new ImageIcon("user4.png") }
+    };
+    DefaultTableModel model = new DefaultTableModel(data, columns);
+      
+    JTable table = new JTable(model) {
+      public Class getColumnClass(int column) {
+        return (column == 3) ? Icon.class : Object.class;
+      }
+    };
+    
+    //Set row height to 60 pixels
+    table.setRowHeight(60);
+    JScrollPane scrollPane = new JScrollPane(table);
+    getContentPane().add(scrollPane);
+      
+    JLabel labelHead = new JLabel("List of employees");
+    labelHead.setFont(new Font("Arial",Font.TRUETYPE_FONT,20));
+    getContentPane().add(labelHead,BorderLayout.PAGE_START);
+  }
+  public static void main(String[] args) 
+  {
+    Main frame = new Main();  
+    frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+    frame.setSize(500, 330);
+    frame.setVisible(true);
+  }
 }
 }*/
