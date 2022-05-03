@@ -19,23 +19,14 @@ public class Editor {
                             
         	ImageIcon icon = new ImageIcon("C:\\Users\\jackv\\Documents\\GitHub\\Labirinto\\res\\tiles\\Tree.png");
 
-            Object [][] data = new Object [50][50];
-
-
+            Object[][] data = new Object [50][50];
             DefaultTableModel model = new DefaultTableModel(data,50);
             JTable jt = new JTable(model) {
               public Class getColumnClass(int column) {
                 return (column == 0) ? Icon.class : Object.class;
               }
             };
-                            
-
-  
-                            
-
-                           
-                            
-                            
+            
             jt.setCellSelectionEnabled(true);  
             ListSelectionModel select= jt.getSelectionModel();  
             select.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);  
@@ -49,7 +40,7 @@ public class Editor {
                 	  data[riga][colonna] = icon;
                    jt.setCellSelectionEnabled(true);
 
-
+                   refreshTabella(data);
 
               
                   } }  
@@ -113,10 +104,20 @@ public class Editor {
 		// TODO Auto-generated method stub
 		return null;
 	}  
+
+	
+	
+public static void refreshTabella(Object[][] data)
+{
+    DefaultTableModel model = new DefaultTableModel(data,50);
+    JTable jt = new JTable(model) {
+      public Class getColumnClass(int column) {
+        return (column == 0) ? Icon.class : Object.class;
+      }
+    };
 }
-	
-	
-	
+
+}
 	
   /*  public static void changeTable(JTable table, int column_index) {
         table.getColumnModel().getColumn(column_index).setCellRenderer(new DefaultTableCellRenderer() {
