@@ -1,10 +1,12 @@
 package controllo;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Frame;
 
 import javax.swing.*;    
 import javax.swing.event.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;  
 public class Editor {    
       public static void main(String[] a) {  
@@ -23,23 +25,11 @@ public class Editor {
                    Data = (String) jt.getValueAt(row[i], columns[j]);  
                    String[][] data = getTableData();
                    String[] cols = getTableCols();
-
-                    
-                    
-                    
                    jt.setCellSelectionEnabled(true);
-                    
-
-                   /* CustomRenderer Renderer = new CustomRenderer();  
-
-                    DefaultTableModel defModel = new DefaultTableModel(data, cols);
-                    JTable jt = new JTable(defModel);
-
-                    jt.setDefaultRenderer(Object.class, Renderer);
-                    */
-                    
+                 
                   } }  
                 System.out.println("L'elemento selezionato: " + Data);    
+                changeTable(jt,columns.length);
               }       
             });  
             JScrollPane sp=new JScrollPane(jt);    
@@ -57,7 +47,45 @@ public class Editor {
 		// TODO Auto-generated method stub
 		return null;
 	}  
-        }
+	
+	
+	
+	
+	
+    public static void changeTable(JTable table, int column_index) {
+        table.getColumnModel().getColumn(column_index).setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                    c.setBackground(Color.GREEN);             
+                return c;
+            }
+        });
+    }
+}
+
+class MyTableCellRenderer extends DefaultTableCellRenderer {
+
+    @Override
+    public Color getBackground() {
+        return super.getBackground();
+    }
+}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+        
 //Color rosso=new Color(255,0,0);
 //jt.setBackground(rosso);
 
