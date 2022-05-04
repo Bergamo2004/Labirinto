@@ -31,7 +31,7 @@ public class PanelloDiGioco extends JPanel implements Runnable {
 
 		this.dim = dimensioni;
 		this.player = new Player(this, comandi);
-		this.tm = new TileManager(this,"/maps/map06.txt");
+		this.tm = new TileManager(this,"/maps/mappa.txt");
 		this.cChecker = new CollisionChecker(this, comandi);
 		this.ogg = new SuperOggetto[10];
 

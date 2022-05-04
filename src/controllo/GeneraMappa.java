@@ -8,9 +8,11 @@ import javax.imageio.ImageIO;
 
 	public class GeneraMappa {
 	   public static void main(String args[])throws Exception {
-	      FileWriter writer = new FileWriter("C:\\Users\\jackv\\Documents\\GitHub\\Labirinto\\res\\maps\\map06.txt");
+		   int nrand = (int) (Math.random() * 10);
+	        	nrand=nrand+1;
+	      FileWriter writer = new FileWriter("res\\maps\\mappa.txt");
 
-	      File file= new File("C:\\Users\\jackv\\Documents\\GitHub\\Labirinto\\res\\maps\\img\\mappadis.png");
+	      File file= new File("res\\maps\\img\\mp"+nrand+".png");
 	      BufferedImage img = ImageIO.read(file);
 	      for (int y = 0; y < img.getHeight(); y++) {
 	         for (int x = 0; x < img.getWidth(); x++) {
@@ -53,7 +55,7 @@ import javax.imageio.ImageIO;
 	            
 	            if(red==0 && green==0 && blue==255)
 	            {
-	            writer.append("2");	//blue==acqua
+	            writer.append("2");	//blu==acqua
 	            }
 	            
 	                writer.append(" ");	
@@ -62,7 +64,7 @@ import javax.imageio.ImageIO;
 	         writer.append("\n");   
 	      }
 	      writer.close();
-	      System.out.println("Mappatura eseguita con successo");
+	      System.out.println("Mappatura eseguita con successo, generata mappa n° "+nrand);
 	   }
 }
 	
