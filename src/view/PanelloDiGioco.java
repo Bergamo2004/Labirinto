@@ -100,7 +100,13 @@ public class PanelloDiGioco extends JPanel implements Runnable {
 		Graphics2D g2 = (Graphics2D) g;
 
 		tm.draw(g2);
-
+		
+		for(int i = 0; i < ogg.length; i++){
+			if(ogg[i] != null){
+				ogg[i].draw(g2, this);
+			}
+		}
+		
 		player.draw(g2);
 
 		g2.dispose();
