@@ -40,6 +40,8 @@ public class PanelloDiGioco extends JPanel implements Runnable {
 		this.setDoubleBuffered(true);
 		this.setFocusable(true);
 		
+		this.setObject();
+		
 		inizia();
 	}
 
@@ -77,7 +79,17 @@ public class PanelloDiGioco extends JPanel implements Runnable {
 			}
 		}
 	}
-
+	
+	public void setObject() {
+		this.ogg[0] = new OggKey();
+		this.ogg[0].worldX = 3* 48; //dim da vedere
+		this.ogg[0].worldY = 8* 48;
+		
+		this.ogg[1] = new OggDoor();
+		this.ogg[1].worldX = 26* 48; //dim da vedere
+		this.ogg[1].worldY = 47* 48;
+	}
+	
 	public void update() {
 
 		player.update();
