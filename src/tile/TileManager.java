@@ -1,6 +1,8 @@
 package tile;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,17 +10,18 @@ import java.io.InputStreamReader;
 
 import javax.imageio.ImageIO;
 
+import oggetto.*;
 import view.PanelloDiGioco;
 
 public class TileManager {
-	PanelloDiGioco gp;
+	public PanelloDiGioco pg;
 	public Tile[] tile;
 	int mapTileNum[][];
 
-	public TileManager(PanelloDiGioco gp, String mappa) {
-		this.gp = gp;
+	public TileManager(PanelloDiGioco pg, String mappa) {
+		this.pg = pg;
 		tile = new Tile[10];
-		mapTileNum = new int[gp.dim.maxWorldCol][gp.dim.maxWorldRow];
+		mapTileNum = new int[pg.dim.maxWorldCol][pg.dim.maxWorldRow];
 		getTileImage();
 		loadMap(mappa);
 	}
@@ -57,27 +60,70 @@ public class TileManager {
 	public void loadMap(String map) {
 		try {
 
-			InputStream is = getClass().getResourceAsStream(map);
-			BufferedReader br = new BufferedReader(new InputStreamReader(is));
-			int col = 0;
-			int row = 0;
+			BufferedImage img = ImageIO.read(getClass().getResourceAsStream(map));
+			for (int y = 0; y < img.getHeight(); y++) {
+				for (int x = 0; x < img.getWidth(); x++) {
 
-			while (col < gp.dim.maxWorldCol && row < gp.dim.maxWorldRow) {
+					int pixel = img.getRGB(x, y);
 
-				String linea = br.readLine();
-				while (col < gp.dim.maxWorldCol) {
+					Color color = new Color(pixel, true);
 
-					String numeri[] = linea.split(" ");
-					int num = Integer.parseInt(numeri[col]);
-					mapTileNum[col][row] = num;
-					col++;
+					int red = color.getRed();
+					int green = color.getGreen();
+					int blue = color.getBlue();
+
+					if (red == 0 && green == 255 && blue == 0) {
+						// verde == erba
+						mapTileNum[x][y] = 0;
+					}
+
+					if (red == 0 && green == 0 && blue == 0) {
+						// nero == muro
+						mapTileNum[x][y] = 1;
+					}
+					
+					if (red == 0 && green == 0 && blue == 255) {
+						 // blu == acqua
+						mapTileNum[x][y] = 2;
+					}
+					
+					if (red == 255 && green == 0 && blue == 0) {
+						 // rosso == albero
+						mapTileNum[x][y] = 3;
+					}
+					
+					if (red == 255 && green == 255 && blue == 255) {
+						// bianco == sabbia
+						mapTileNum[x][y] = 4;
+					}
+
+					if (red == 255 && green == 117 && blue == 20) {
+						 // arancione == terra
+						mapTileNum[x][y] = 5;
+					}
+					
+					if(red == 101 && green == 67 && blue == 33) {
+						// marrone == porta
+						mapTileNum[x][y] = 0;
+												
+						pg.ogg[1] = new OggDoor();
+						pg.ogg[1].worldX = x * pg.dim.grandezzaInGioco; // dim da vedere
+						pg.ogg[1].worldY = y * pg.dim.grandezzaInGioco;
+					}
+
+					if (red == 255 && green == 255 && blue == 0) {
+						 // Giallo == chiave
+						mapTileNum[x][y] = 0;
+						
+						pg.ogg[0] = new OggKey();
+						pg.ogg[0].worldX = x * pg.dim.grandezzaInGioco; // dim da vedere
+						pg.ogg[0].worldY = y * pg.dim.grandezzaInGioco;
+					}
+					
 				}
-				if (col == gp.dim.maxWorldCol) {
-					col = 0;
-					row++;
-				}
+				
 			}
-			br.close();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -89,31 +135,31 @@ public class TileManager {
 			int worldCol = 0;
 			int worldRow = 0;
 
-			while (worldCol < gp.dim.maxWorldCol && worldRow < gp.dim.maxWorldRow) {
+			while (worldCol < pg.dim.maxWorldCol && worldRow < pg.dim.maxWorldRow) {
 				int tileNum = mapTileNum[worldCol][worldRow];
 
 				// coordinate della mappa
-				int worldX = worldCol * gp.dim.grandezzaInGioco;
-				int worldY = worldRow * gp.dim.grandezzaInGioco;
+				int worldX = worldCol * pg.dim.grandezzaInGioco;
+				int worldY = worldRow * pg.dim.grandezzaInGioco;
 
 				// coordinate dello schermo
-				int screenX = worldX - gp.player.worldX + gp.player.screenX;
-				int screenY = worldY - gp.player.worldY + gp.player.screenY;
+				int screenX = worldX - pg.player.worldX + pg.player.screenX;
+				int screenY = worldY - pg.player.worldY + pg.player.screenY;
 
 				// differenza tra altezza/lunghezza dello schermo e i loro valori di default
-				int d1 = gp.player.defaultScreenX - gp.player.screenX;
-				int d2 = gp.player.defaultScreenY - gp.player.screenY;
+				int d1 = pg.player.defaultScreenX - pg.player.screenX;
+				int d2 = pg.player.defaultScreenY - pg.player.screenY;
 
-				if (worldX + gp.dim.grandezzaInGioco > (gp.player.worldX - gp.player.defaultScreenX) + d1
-						&& worldX - gp.dim.grandezzaInGioco < (gp.player.worldX + gp.player.defaultScreenX) + d1
-						&& worldY + gp.dim.grandezzaInGioco > (gp.player.worldY - gp.player.defaultScreenY) + d2
-						&& worldY - gp.dim.grandezzaInGioco < (gp.player.worldY + gp.player.defaultScreenY) + d2)
-					g2.drawImage(tile[tileNum].image, screenX, screenY, gp.dim.grandezzaInGioco,
-							gp.dim.grandezzaInGioco, null);
+				if (worldX + pg.dim.grandezzaInGioco > (pg.player.worldX - pg.player.defaultScreenX) + d1
+						&& worldX - pg.dim.grandezzaInGioco < (pg.player.worldX + pg.player.defaultScreenX) + d1
+						&& worldY + pg.dim.grandezzaInGioco > (pg.player.worldY - pg.player.defaultScreenY) + d2
+						&& worldY - pg.dim.grandezzaInGioco < (pg.player.worldY + pg.player.defaultScreenY) + d2)
+					g2.drawImage(tile[tileNum].image, screenX, screenY, pg.dim.grandezzaInGioco,
+							pg.dim.grandezzaInGioco, null);
 
 				worldCol++;
 
-				if (worldCol == gp.dim.maxWorldCol) {
+				if (worldCol == pg.dim.maxWorldCol) {
 					worldCol = 0;
 
 					worldRow++;

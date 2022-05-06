@@ -89,6 +89,7 @@ public class Player extends Entity {
 
 			collisionOn = false;
 			pg.cChecker.checkTile(this);
+			pickupObject(pg.cChecker.checkObject(this, true));
 
 			if (collisionOn == false) {
 
@@ -185,16 +186,21 @@ public class Player extends Entity {
 		if (i != 999) {
 			String objectName = pg.ogg[i].nome;
 			switch (objectName) {
-			case "Key":
+			case "chiave":
 				hasKey++;
 				pg.ogg[i] = null;
 				System.out.println("Key: " + hasKey);
 				break;
-			case "Door":
-				hasKey--;
-				pg.ogg[i] = null;
-				System.out.println("Door: open");
-				System.out.println("Key: " + hasKey);
+			case "porta":
+				if (hasKey > 0) {
+					hasKey--;
+					pg.ogg[i] = null;
+					System.out.println("Door: open");
+					System.out.println("Key: " + hasKey);
+				} else {
+					collisionOn = true;
+					// System.out.println("Non puoi entrare senza chiave");
+				}
 				break;
 			}
 		}

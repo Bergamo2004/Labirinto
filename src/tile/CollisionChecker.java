@@ -33,7 +33,7 @@ public class CollisionChecker {
 				tileNum2 = pg.tm.mapTileNum[entityRightCol][entityTopRow];
 				if (pg.tm.tile[tileNum1].collision == true || pg.tm.tile[tileNum2].collision == true) {
 					entity.collisionOn = true;
-					entity.collisionDirection = "su";
+
 				}
 			}
 			if (com.giuPremuto) {
@@ -42,7 +42,6 @@ public class CollisionChecker {
 				tileNum2 = pg.tm.mapTileNum[entityRightCol][entityBottomRow];
 				if (pg.tm.tile[tileNum1].collision == true || pg.tm.tile[tileNum2].collision == true) {
 					entity.collisionOn = true;
-					entity.collisionDirection = "giu";
 				}
 			}
 			if (com.destraPremuto) {
@@ -51,7 +50,6 @@ public class CollisionChecker {
 				tileNum2 = pg.tm.mapTileNum[entityRightCol][entityBottomRow];
 				if (pg.tm.tile[tileNum1].collision == true || pg.tm.tile[tileNum2].collision == true) {
 					entity.collisionOn = true;
-					entity.collisionDirection = "destra";
 				}
 			}
 			if (com.sinistraPremuto) {
@@ -60,7 +58,6 @@ public class CollisionChecker {
 				tileNum2 = pg.tm.mapTileNum[entityLeftCol][entityBottomRow];
 				if (pg.tm.tile[tileNum1].collision == true || pg.tm.tile[tileNum2].collision == true) {
 					entity.collisionOn = true;
-					entity.collisionDirection = "sinistra";
 				}
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
@@ -83,7 +80,7 @@ public int checkObject(Entity entity, boolean player) {
 				pg.ogg[i].solidArea.y = pg.ogg[i].worldY +pg.ogg[i].solidArea.y;
 				
 				switch(entity.direzione) {
-					case "up":
+					case "su":
 						entity.solidArea.y -= entity.speed;
 						if(entity.solidArea.intersects(pg.ogg[i].solidArea)) {
 							if(pg.ogg[i].collision == true) {
@@ -94,7 +91,7 @@ public int checkObject(Entity entity, boolean player) {
 							}
 						}
 					break;
-					case "down":
+					case "giu":
 						entity.solidArea.y += entity.speed;
 						if(entity.solidArea.intersects(pg.ogg[i].solidArea)) {
 							if(pg.ogg[i].collision == true) {
@@ -105,7 +102,7 @@ public int checkObject(Entity entity, boolean player) {
 							}
 						}
 					break;
-					case "left":
+					case "sinistra":
 						entity.solidArea.x -= entity.speed;
 						if(entity.solidArea.intersects(pg.ogg[i].solidArea)) {
 							if(pg.ogg[i].collision == true) {
@@ -117,7 +114,7 @@ public int checkObject(Entity entity, boolean player) {
 						}
 						
 					break;
-					case "right":
+					case "destra":
 						entity.solidArea.x += entity.speed;
 						if(entity.solidArea.intersects(pg.ogg[i].solidArea)) {
 							if(pg.ogg[i].collision == true) {

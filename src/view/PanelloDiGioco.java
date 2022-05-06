@@ -34,15 +34,12 @@ public class PanelloDiGioco extends JPanel implements Runnable {
 
 		this.dim = dimensioni;
 		this.player = new Player(this, comandi);
+		this.ogg = new SuperOggetto[10];
 		// Mappa randomica
 		int r = (int) Math.floor(Math.random() * 10 + 1);
-		if (r < 10)
-			this.tm = new TileManager(this, "/maps/map0" + r + ".txt");
-		else
-			this.tm = new TileManager(this, "/maps/map" + r + ".txt");
+		this.tm = new TileManager(this, "/maps/mp1.png");
 		System.out.println("Generata mappa numero: " + r);
 		this.cChecker = new CollisionChecker(this, comandi);
-		this.ogg = new SuperOggetto[10];
 		this.comandi = comandi;
 
 		this.setPreferredSize(new Dimension(dim.lunghezzaSchermo, dim.altezzaSchermo));
@@ -51,7 +48,7 @@ public class PanelloDiGioco extends JPanel implements Runnable {
 		this.setFocusable(true);
 
 		this.setObject();
-		
+
 		inizia();
 	}
 
@@ -89,15 +86,12 @@ public class PanelloDiGioco extends JPanel implements Runnable {
 			}
 		}
 	}
-	
+
 	public void setObject() {
-		this.ogg[0] = new OggKey();
-		this.ogg[0].worldX = 3* 48; //dim da vedere
-		this.ogg[0].worldY = 8* 48;
 		
-		this.ogg[1] = new OggDoor();
-		this.ogg[1].worldX = 26* 48; //dim da vedere
-		this.ogg[1].worldY = 47* 48;
+		this.ogg[0] = tm.pg.ogg[0];
+		this.ogg[1] = tm.pg.ogg[1];
+
 	}
 
 	public void update() {
@@ -111,12 +105,12 @@ public class PanelloDiGioco extends JPanel implements Runnable {
 
 		tm.draw(g2);
 
-		for(int i = 0; i < ogg.length; i++){
-			if(ogg[i] != null){
+		for (int i = 0; i < ogg.length; i++) {
+			if (ogg[i] != null) {
 				ogg[i].draw(g2, this);
 			}
 		}
-		
+
 		player.draw(g2);
 
 		if (comandi.giocoInPausa == true)

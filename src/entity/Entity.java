@@ -18,5 +18,4 @@ public class Entity {
 	// Collisioni
 	public Rectangle solidArea;
 	public boolean collisionOn = false;
-	public String collisionDirection;
 }
