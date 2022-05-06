@@ -10,8 +10,12 @@ import javax.imageio.ImageIO;
 	   public static void main(String args[])throws Exception {
 		   int nrand = (int) (Math.random() * 10);
 	        	nrand=nrand+1;
-	      FileWriter writer = new FileWriter("res\\maps\\mappa.txt");
-
+	  	      File filemp= new File("res\\maps\\mappa.txt");
+	  	      if(filemp.exists())
+	  	      {
+		  	    	filemp.delete(); 
+	  	      }
+		  	    	FileWriter writer = new FileWriter("res\\maps\\mappa.txt");
 	      File file= new File("res\\maps\\img\\mp"+nrand+".png");
 	      BufferedImage img = ImageIO.read(file);
 	      for (int y = 0; y < img.getHeight(); y++) {
