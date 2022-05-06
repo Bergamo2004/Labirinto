@@ -1,15 +1,23 @@
 package oggetto;
 
 import java.awt.image.BufferedImage;
+import java.awt.Rectangle;
+
+import view.PanelloDiGioco;
+import java.awt.Graphics2D;
 
 public class SuperOggetto {
-	
+
 	public BufferedImage image;
 	public String nome;
 	public boolean collision = false;
 	public int worldX, worldY;
 	
-	public void draw (Graphics2D g2, PanelloDiGioco gp) {
+	public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
+	public int solidAreaDefaultX = 0;
+	public int solidAreaDefaultY = 0;
+
+	public void draw(Graphics2D g2, PanelloDiGioco gp) {
 		int screenX = worldX - gp.player.worldX + gp.player.screenX;
 		int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
@@ -20,7 +28,7 @@ public class SuperOggetto {
 				&& worldX - gp.dim.grandezzaInGioco < (gp.player.worldX + gp.player.defaultScreenX) + d1
 				&& worldY + gp.dim.grandezzaInGioco > (gp.player.worldY - gp.player.defaultScreenY) + d2
 				&& worldY - gp.dim.grandezzaInGioco < (gp.player.worldY + gp.player.defaultScreenY) + d2) {
-			
+
 			g2.drawImage(image, screenX, screenY, gp.dim.grandezzaInGioco, gp.dim.grandezzaInGioco, null);
 		}
 	}

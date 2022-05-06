@@ -9,10 +9,10 @@ public class Comandi implements KeyListener {
 
 	public boolean suPremuto, giuPremuto, sinistraPremuto, destraPremuto;
 	public int velocita = 4;
-	private int codPausa = 0;
+	public boolean giocoInPausa = false;
 
 	private GestionePannelli gp;
-	
+
 	public Comandi(GestionePannelli gp) {
 		this.gp = gp;
 	}
@@ -24,42 +24,43 @@ public class Comandi implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int tasto = e.getKeyCode();
-		
-		if (tasto == KeyEvent.VK_W) {
+
+		if (tasto == KeyEvent.VK_W && !giocoInPausa) {
 			suPremuto = true;
 		}
-		if (tasto == KeyEvent.VK_A) {
+		if (tasto == KeyEvent.VK_A && !giocoInPausa) {
 			sinistraPremuto = true;
 		}
-		if (tasto == KeyEvent.VK_S) {
+		if (tasto == KeyEvent.VK_S && !giocoInPausa) {
 			giuPremuto = true;
 		}
-		if (tasto == KeyEvent.VK_D) {
+		if (tasto == KeyEvent.VK_D && !giocoInPausa) {
 			destraPremuto = true;
 		}
-		if (tasto == KeyEvent.VK_SHIFT) {
+		if (tasto == KeyEvent.VK_SHIFT && !giocoInPausa) {
 			if (velocita == 4)
 				velocita = 8;
 			else
 				velocita = 4;
 		}
-		if (tasto == KeyEvent.VK_CONTROL) {
+		if (tasto == KeyEvent.VK_CONTROL && !giocoInPausa) {
 			if (velocita == 4)
 				velocita = 2;
 			else
 				velocita = 4;
 		}
 		if (tasto == KeyEvent.VK_ESCAPE) {
-			if(gp.giocoAvviato) {
+			if (gp.giocoAvviato) {
 				suPremuto = false;
 				giuPremuto = false;
 				destraPremuto = false;
 				sinistraPremuto = false;
-				gp.pausa(codPausa);
-				if(codPausa == 0)
-					codPausa = 1;
+				// gp.pausa(codPausa);
+				if (!giocoInPausa)
+					giocoInPausa = true;
 				else
-					codPausa = 0;
+					giocoInPausa = false;
+				//System.out.println(giocoInPausa);
 			}
 		}
 	}

@@ -53,6 +53,8 @@ public class GestionePannelli extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getSource() == m.start) {
+			if(comandi.giocoInPausa)
+				comandi.giocoInPausa = false;
 			if (!giocoAvviato) {
 				gamePanel = new PanelloDiGioco(dim, comandi);
 				giocoAvviato = true;
@@ -66,18 +68,5 @@ public class GestionePannelli extends JFrame implements ActionListener {
 			System.exit(0);
 		}
 
-	}
-
-	public void pausa(int codPausa) {
-		if (codPausa == 0) {
-			remove(gamePanel);
-			add(m);
-			m.pausa();
-			this.revalidate();
-		} else {
-			remove(m);
-			add(gamePanel);
-			this.revalidate();
-		}
 	}
 }

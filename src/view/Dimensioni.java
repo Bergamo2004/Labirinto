@@ -10,8 +10,8 @@ public class Dimensioni {
 	public final int maxScreenCol = 16;
 	public final int maxScreenRow = 12;
 
-	public final int lunghezzaInGioco = maxScreenCol * grandezzaInGioco; // 768
-	public final int altezzaInGioco = maxScreenRow * grandezzaInGioco;   // 576
+	public final int lunghezzaSchermo = maxScreenCol * grandezzaInGioco; // 768
+	public final int altezzaSchermo = maxScreenRow * grandezzaInGioco;   // 576
 
 	// Impostazioni mondo
 	public final int maxWorldCol = 50;
