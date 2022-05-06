@@ -20,12 +20,14 @@ public class Player extends Entity {
 	public int screenX;
 	public int screenY;
 
+	public int hasKey;
+
 	public Player(PanelloDiGioco pg, Comandi com) {
 		this.pg = pg;
 		this.com = com;
 
-		defaultScreenX = pg.dim.lunghezzaInGioco / 2 - (pg.dim.grandezzaInGioco / 2); // 360
-		defaultScreenY = pg.dim.altezzaInGioco / 2 - (pg.dim.grandezzaInGioco / 2);   // 264
+		defaultScreenX = pg.dim.lunghezzaSchermo / 2 - (pg.dim.grandezzaInGioco / 2); // 360
+		defaultScreenY = pg.dim.altezzaSchermo / 2 - (pg.dim.grandezzaInGioco / 2); // 264
 
 		solidArea = new Rectangle(8, 16, 32, 32);
 
@@ -49,15 +51,21 @@ public class Player extends Entity {
 	}
 
 	public void setDefaultValues() {
-		
-		double d1 = pg.dim.grandezzaInGioco * 24.5;
-		
-		worldX = (int) d1;
-		worldY = (int) d1;
-		
+
+		// double d1 = pg.dim.grandezzaInGioco * 24.5;
+
+		// worldX = (int) d1;
+		worldX = 1190;
+		worldY = 2075;
+
+		solidAreaDefaultX = solidArea.x;
+		solidAreaDefaultY = solidArea.y;
+
+		hasKey = 0;
+
 		screenX = defaultScreenX;
 		screenY = defaultScreenY;
-		
+
 		// System.out.println("Coord = X: " + worldX + ", Y: " + worldY);
 		speed = 4;
 		direzione = "giu";
@@ -84,8 +92,8 @@ public class Player extends Entity {
 
 			if (collisionOn == false) {
 
-				int worldXCam = pg.dim.worldWidth - pg.dim.lunghezzaInGioco / 2 - (pg.dim.grandezzaInGioco / 2);
-				int worldYCam = pg.dim.worldHeight - pg.dim.altezzaInGioco / 2 - (pg.dim.grandezzaInGioco / 2);
+				int worldXCam = pg.dim.worldWidth - pg.dim.lunghezzaSchermo / 2 - (pg.dim.grandezzaInGioco / 2);
+				int worldYCam = pg.dim.worldHeight - pg.dim.altezzaSchermo / 2 - (pg.dim.grandezzaInGioco / 2);
 
 				if (com.suPremuto) {
 					if (worldY <= defaultScreenY || worldY >= worldYCam) {
@@ -123,7 +131,7 @@ public class Player extends Entity {
 						screenX = defaultScreenX;
 					}
 				}
-				//System.out.println("Coord = X: " + worldX + ", Y: " + worldY);
+				// System.out.println("Coord = X: " + worldX + ", Y: " + worldY);
 			}
 			// Velocita animazione
 			if (collisionOn == false) {
@@ -171,6 +179,25 @@ public class Player extends Entity {
 			break;
 		}
 		g2.drawImage(image, screenX, screenY, pg.dim.grandezzaInGioco, pg.dim.grandezzaInGioco, null);
+	}
+
+	public void pickupObject(int i) {
+		if (i != 999) {
+			String objectName = pg.ogg[i].nome;
+			switch (objectName) {
+			case "Key":
+				hasKey++;
+				pg.ogg[i] = null;
+				System.out.println("Key: " + hasKey);
+				break;
+			case "Door":
+				hasKey--;
+				pg.ogg[i] = null;
+				System.out.println("Door: open");
+				System.out.println("Key: " + hasKey);
+				break;
+			}
+		}
 	}
 
 }

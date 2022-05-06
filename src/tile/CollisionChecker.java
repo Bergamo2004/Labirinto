@@ -70,4 +70,71 @@ public class CollisionChecker {
 			entity.worldY = (int) d1;
 		}
 	}
+public int checkObject(Entity entity, boolean player) {
+		
+		int index = 999;
+		
+		for(int i = 0; i < pg.ogg.length; i++) {
+			if(pg.ogg[i] != null) {
+				entity.solidArea.x = entity.worldX + entity.solidArea.x;
+				entity.solidArea.y = entity.worldY + entity.solidArea.y;
+				
+				pg.ogg[i].solidArea.x = pg.ogg[i].worldX +pg.ogg[i].solidArea.x;
+				pg.ogg[i].solidArea.y = pg.ogg[i].worldY +pg.ogg[i].solidArea.y;
+				
+				switch(entity.direzione) {
+					case "up":
+						entity.solidArea.y -= entity.speed;
+						if(entity.solidArea.intersects(pg.ogg[i].solidArea)) {
+							if(pg.ogg[i].collision == true) {
+								entity.collisionOn = true;
+							}
+							if(player == true) {
+								index = i;
+							}
+						}
+					break;
+					case "down":
+						entity.solidArea.y += entity.speed;
+						if(entity.solidArea.intersects(pg.ogg[i].solidArea)) {
+							if(pg.ogg[i].collision == true) {
+								entity.collisionOn = true;
+							}
+							if(player == true) {
+								index = i;
+							}
+						}
+					break;
+					case "left":
+						entity.solidArea.x -= entity.speed;
+						if(entity.solidArea.intersects(pg.ogg[i].solidArea)) {
+							if(pg.ogg[i].collision == true) {
+							entity.collisionOn = true;
+							}
+							if(player == true) {
+								index = i;
+							}	
+						}
+						
+					break;
+					case "right":
+						entity.solidArea.x += entity.speed;
+						if(entity.solidArea.intersects(pg.ogg[i].solidArea)) {
+							if(pg.ogg[i].collision == true) {
+							entity.collisionOn = true;
+							}
+							if(player == true) {
+								index = i;
+							}
+						}					
+					break;
+				}
+				entity.solidArea.x = entity.solidAreaDefaultX;
+				entity.solidArea.y = entity.solidAreaDefaultY;
+				pg.ogg[i].solidArea.x = pg.ogg[i].solidAreaDefaultX;
+				pg.ogg[i].solidArea.y = pg.ogg[i].solidAreaDefaultY;
+			}
+		}		
+		return index;
+	}
 }
