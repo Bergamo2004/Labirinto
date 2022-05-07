@@ -7,7 +7,6 @@ import java.awt.Graphics2D;
 import java.awt.Font;
 
 import javax.swing.*;
-
 @SuppressWarnings("serial")
 public class Menu extends JPanel {
 
@@ -49,4 +48,5 @@ public class Menu extends JPanel {
 			e.printStackTrace();
 		}
 	}
+	
 }
