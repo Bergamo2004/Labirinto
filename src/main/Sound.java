@@ -14,10 +14,8 @@ public class Sound {
 	public Sound()
 	{
 		soundURL[0]=getClass().getResource("/suoni/Soundtrack.wav");
-		soundURL[1]=getClass().getResource("/suoni/walk.wav");
-		soundURL[2]=getClass().getResource("/suoni/corsa.wav");
-		soundURL[3]=getClass().getResource("/suoni/chiave.wav");
-		soundURL[4]=getClass().getResource("/suoni/porta.wav");
+		soundURL[1]=getClass().getResource("/suoni/chiave.wav");
+		soundURL[2]=getClass().getResource("/suoni/porta.wav");
 	}
 	
 	public void setFile(int i)

@@ -188,13 +188,13 @@ public class Player extends Entity {
 			case "chiave":
 				hasKey++;
 				pg.ogg[i] = null;
-				pg.effettosonoro(3);
+				pg.effettosonoro(1);
 				break;
 			case "porta":
 				if (hasKey > 0) {
 					hasKey--;
 					pg.ogg[i] = null;
-					pg.effettosonoro(4);
+					pg.effettosonoro(2);
 					vittoria = true;
 				} else
 					collisionOn = true;
