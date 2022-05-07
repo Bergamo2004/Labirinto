@@ -8,7 +8,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import control.Comandi;
-import view.Dimensioni;
 import view.PanelloDiGioco;
 
 public class Player extends Entity {
