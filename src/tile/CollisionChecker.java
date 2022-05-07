@@ -61,69 +61,66 @@ public class CollisionChecker {
 				}
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
-			double d1 = pg.dim.grandezzaInGioco * 24.5;
-
-			entity.worldX = (int) d1;
-			entity.worldY = (int) d1;
 		}
 	}
-public int checkObject(Entity entity, boolean player) {
-		
+
+	public int checkObject(Entity entity, boolean player) {
+
 		int index = 999;
-		
-		for(int i = 0; i < pg.ogg.length; i++) {
-			if(pg.ogg[i] != null) {
+
+		for (int i = 0; i < pg.ogg.length; i++) {
+			if (pg.ogg[i] != null) {
 				entity.solidArea.x = entity.worldX + entity.solidArea.x;
 				entity.solidArea.y = entity.worldY + entity.solidArea.y;
-				
-				pg.ogg[i].solidArea.x = pg.ogg[i].worldX +pg.ogg[i].solidArea.x;
-				pg.ogg[i].solidArea.y = pg.ogg[i].worldY +pg.ogg[i].solidArea.y;
-				
-				switch(entity.direzione) {
-					case "su":
-						entity.solidArea.y -= entity.speed;
-						if(entity.solidArea.intersects(pg.ogg[i].solidArea)) {
-							if(pg.ogg[i].collision == true) {
-								entity.collisionOn = true;
-							}
-							if(player == true) {
-								index = i;
-							}
-						}
-					break;
-					case "giu":
-						entity.solidArea.y += entity.speed;
-						if(entity.solidArea.intersects(pg.ogg[i].solidArea)) {
-							if(pg.ogg[i].collision == true) {
-								entity.collisionOn = true;
-							}
-							if(player == true) {
-								index = i;
-							}
-						}
-					break;
-					case "sinistra":
-						entity.solidArea.x -= entity.speed;
-						if(entity.solidArea.intersects(pg.ogg[i].solidArea)) {
-							if(pg.ogg[i].collision == true) {
+
+				pg.ogg[i].solidArea.x = pg.ogg[i].worldX + pg.ogg[i].solidArea.x;
+				pg.ogg[i].solidArea.y = pg.ogg[i].worldY + pg.ogg[i].solidArea.y;
+
+				switch (entity.direzione) {
+				case "su":
+					entity.solidArea.y -= entity.speed;
+					if (entity.solidArea.intersects(pg.ogg[i].solidArea)) {
+						if (pg.ogg[i].collision == true) {
 							entity.collisionOn = true;
-							}
-							if(player == true) {
-								index = i;
-							}	
 						}
-						
+						if (player == true) {
+							index = i;
+						}
+					}
 					break;
-					case "destra":
-						entity.solidArea.x += entity.speed;
-						if(entity.solidArea.intersects(pg.ogg[i].solidArea)) {
-							if(pg.ogg[i].collision == true) {
+				case "giu":
+					entity.solidArea.y += entity.speed;
+					if (entity.solidArea.intersects(pg.ogg[i].solidArea)) {
+						if (pg.ogg[i].collision == true) {
 							entity.collisionOn = true;
-							}
-							if(player == true) {
-								index = i;
-							}
-						}					
+						}
+						if (player == true) {
+							index = i;
+						}
+					}
+					break;
+				case "sinistra":
+					entity.solidArea.x -= entity.speed;
+					if (entity.solidArea.intersects(pg.ogg[i].solidArea)) {
+						if (pg.ogg[i].collision == true) {
+							entity.collisionOn = true;
+						}
+						if (player == true) {
+							index = i;
+						}
+					}
+
+					break;
+				case "destra":
+					entity.solidArea.x += entity.speed;
+					if (entity.solidArea.intersects(pg.ogg[i].solidArea)) {
+						if (pg.ogg[i].collision == true) {
+							entity.collisionOn = true;
+						}
+						if (player == true) {
+							index = i;
+						}
+					}
 					break;
 				}
 				entity.solidArea.x = entity.solidAreaDefaultX;
@@ -131,7 +128,7 @@ public int checkObject(Entity entity, boolean player) {
 				pg.ogg[i].solidArea.x = pg.ogg[i].solidAreaDefaultX;
 				pg.ogg[i].solidArea.y = pg.ogg[i].solidAreaDefaultY;
 			}
-		}		
+		}
 		return index;
 	}
 }

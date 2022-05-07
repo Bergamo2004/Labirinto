@@ -8,6 +8,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import controllo.Comandi;
+import view.Dimensioni;
 import view.PanelloDiGioco;
 
 public class Player extends Entity {
@@ -21,6 +22,8 @@ public class Player extends Entity {
 	public int screenY;
 
 	public int hasKey;
+
+	public boolean vittoria = false;
 
 	public Player(PanelloDiGioco pg, Comandi com) {
 		this.pg = pg;
@@ -52,11 +55,8 @@ public class Player extends Entity {
 
 	public void setDefaultValues() {
 
-		// double d1 = pg.dim.grandezzaInGioco * 24.5;
-
-		// worldX = (int) d1;
-		worldX = 1190;
-		worldY = 2075;
+		worldX = 25 * pg.dim.grandezzaInGioco;
+		worldY = 43 * pg.dim.grandezzaInGioco;
 
 		solidAreaDefaultX = solidArea.x;
 		solidAreaDefaultY = solidArea.y;
@@ -189,18 +189,14 @@ public class Player extends Entity {
 			case "chiave":
 				hasKey++;
 				pg.ogg[i] = null;
-				System.out.println("Key: " + hasKey);
 				break;
 			case "porta":
 				if (hasKey > 0) {
 					hasKey--;
 					pg.ogg[i] = null;
-					System.out.println("Door: open");
-					System.out.println("Key: " + hasKey);
-				} else {
+					vittoria = true;
+				} else
 					collisionOn = true;
-					// System.out.println("Non puoi entrare senza chiave");
-				}
 				break;
 			}
 		}

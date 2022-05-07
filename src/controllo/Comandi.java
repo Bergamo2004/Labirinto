@@ -25,43 +25,44 @@ public class Comandi implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		int tasto = e.getKeyCode();
 
-		if (tasto == KeyEvent.VK_W && !giocoInPausa) {
+		if ((tasto == KeyEvent.VK_W || tasto == KeyEvent.VK_UP) && !giocoInPausa && !gp.gamePanel.player.vittoria) {
 			suPremuto = true;
 		}
-		if (tasto == KeyEvent.VK_A && !giocoInPausa) {
+		if ((tasto == KeyEvent.VK_A || tasto == KeyEvent.VK_LEFT) && !giocoInPausa && !gp.gamePanel.player.vittoria) {
 			sinistraPremuto = true;
 		}
-		if (tasto == KeyEvent.VK_S && !giocoInPausa) {
+		if ((tasto == KeyEvent.VK_S || tasto == KeyEvent.VK_DOWN) && !giocoInPausa && !gp.gamePanel.player.vittoria) {
 			giuPremuto = true;
 		}
-		if (tasto == KeyEvent.VK_D && !giocoInPausa) {
+		if ((tasto == KeyEvent.VK_D || tasto == KeyEvent.VK_RIGHT) && !giocoInPausa && !gp.gamePanel.player.vittoria) {
 			destraPremuto = true;
 		}
-		if (tasto == KeyEvent.VK_SHIFT && !giocoInPausa) {
+		if (tasto == KeyEvent.VK_SHIFT && !giocoInPausa && !gp.gamePanel.player.vittoria) {
 			if (velocita == 4)
 				velocita = 8;
 			else
 				velocita = 4;
 		}
-		if (tasto == KeyEvent.VK_CONTROL && !giocoInPausa) {
+		if (tasto == KeyEvent.VK_CONTROL && !giocoInPausa && !gp.gamePanel.player.vittoria) {
 			if (velocita == 4)
 				velocita = 2;
 			else
 				velocita = 4;
 		}
-		if (tasto == KeyEvent.VK_ESCAPE) {
+		if (tasto == KeyEvent.VK_ESCAPE && !gp.gamePanel.player.vittoria) {
 			if (gp.giocoAvviato) {
 				suPremuto = false;
 				giuPremuto = false;
 				destraPremuto = false;
 				sinistraPremuto = false;
-				// gp.pausa(codPausa);
 				if (!giocoInPausa)
 					giocoInPausa = true;
 				else
 					giocoInPausa = false;
-				//System.out.println(giocoInPausa);
 			}
+		}
+		if (tasto == KeyEvent.VK_E && (gp.gamePanel.player.vittoria || giocoInPausa)) {
+			System.exit(0);
 		}
 	}
 
@@ -69,16 +70,16 @@ public class Comandi implements KeyListener {
 	public void keyReleased(KeyEvent e) {
 		int tasto = e.getKeyCode();
 
-		if (tasto == KeyEvent.VK_W) {
+		if (tasto == KeyEvent.VK_W || tasto == KeyEvent.VK_UP) {
 			suPremuto = false;
 		}
-		if (tasto == KeyEvent.VK_A) {
+		if (tasto == KeyEvent.VK_A || tasto == KeyEvent.VK_LEFT) {
 			sinistraPremuto = false;
 		}
-		if (tasto == KeyEvent.VK_S) {
+		if (tasto == KeyEvent.VK_S || tasto == KeyEvent.VK_DOWN) {
 			giuPremuto = false;
 		}
-		if (tasto == KeyEvent.VK_D) {
+		if (tasto == KeyEvent.VK_D || tasto == KeyEvent.VK_RIGHT) {
 			destraPremuto = false;
 		}
 	}

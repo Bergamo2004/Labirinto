@@ -12,7 +12,7 @@ import controllo.Comandi;
 
 @SuppressWarnings("serial")
 public class GestionePannelli extends JFrame implements ActionListener {
-	private PanelloDiGioco gamePanel;
+	public PanelloDiGioco gamePanel;
 	private Menu m;
 	private BufferedImage icona;
 	private Dimensioni dim;
@@ -23,7 +23,7 @@ public class GestionePannelli extends JFrame implements ActionListener {
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
-		this.setTitle("Pelato Rosso");
+		this.setTitle("Labirinto");
 
 		try {
 			icona = ImageIO.read(getClass().getResourceAsStream("/menu/icona.png"));

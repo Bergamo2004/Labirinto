@@ -3,10 +3,7 @@ package tile;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 import javax.imageio.ImageIO;
 
@@ -17,11 +14,13 @@ public class TileManager {
 	public PanelloDiGioco pg;
 	public Tile[] tile;
 	int mapTileNum[][];
+	public int contOgg;
 
 	public TileManager(PanelloDiGioco pg, String mappa) {
 		this.pg = pg;
 		tile = new Tile[10];
 		mapTileNum = new int[pg.dim.maxWorldCol][pg.dim.maxWorldRow];
+		contOgg = 0;
 		getTileImage();
 		loadMap(mappa);
 	}
@@ -80,49 +79,49 @@ public class TileManager {
 						// nero == muro
 						mapTileNum[x][y] = 1;
 					}
-					
+
 					if (red == 0 && green == 0 && blue == 255) {
-						 // blu == acqua
+						// blu == acqua
 						mapTileNum[x][y] = 2;
 					}
-					
+
 					if (red == 255 && green == 0 && blue == 0) {
-						 // rosso == albero
+						// rosso == albero
 						mapTileNum[x][y] = 3;
 					}
-					
+
 					if (red == 255 && green == 255 && blue == 255) {
 						// bianco == sabbia
 						mapTileNum[x][y] = 4;
 					}
 
 					if (red == 255 && green == 117 && blue == 20) {
-						 // arancione == terra
+						// arancione == terra
 						mapTileNum[x][y] = 5;
 					}
-					
-					if(red == 101 && green == 67 && blue == 33) {
+
+					if (red == 101 && green == 67 && blue == 33) {
 						// marrone == porta
 						mapTileNum[x][y] = 0;
-												
-						pg.ogg[1] = new OggDoor();
-						pg.ogg[1].worldX = x * pg.dim.grandezzaInGioco; // dim da vedere
-						pg.ogg[1].worldY = y * pg.dim.grandezzaInGioco;
+
+						pg.ogg[contOgg] = new OggDoor();
+						pg.ogg[contOgg].worldX = x * pg.dim.grandezzaInGioco; // dim da vedere
+						pg.ogg[contOgg].worldY = y * pg.dim.grandezzaInGioco;
+						contOgg++;
 					}
 
 					if (red == 255 && green == 255 && blue == 0) {
-						 // Giallo == chiave
+						// Giallo == chiave
 						mapTileNum[x][y] = 0;
-						
-						pg.ogg[0] = new OggKey();
-						pg.ogg[0].worldX = x * pg.dim.grandezzaInGioco; // dim da vedere
-						pg.ogg[0].worldY = y * pg.dim.grandezzaInGioco;
+
+						pg.ogg[contOgg] = new OggKey();
+						pg.ogg[contOgg].worldX = x * pg.dim.grandezzaInGioco; // dim da vedere
+						pg.ogg[contOgg].worldY = y * pg.dim.grandezzaInGioco;
+						contOgg++;
 					}
-					
 				}
-				
 			}
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

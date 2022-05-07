@@ -22,6 +22,10 @@ public class PanelloDiGioco extends JPanel implements Runnable {
 	// FPS
 	private int fps = 60;
 
+	// Timer
+	public int secCount = 0;
+	public int minCount = 0;
+
 	public Thread gameThread;
 	public Player player;
 	public TileManager tm;
@@ -36,9 +40,13 @@ public class PanelloDiGioco extends JPanel implements Runnable {
 		this.player = new Player(this, comandi);
 		this.ogg = new SuperOggetto[10];
 		// Mappa randomica
-		int r = (int) Math.floor(Math.random() * 10 + 1);
-		this.tm = new TileManager(this, "/maps/mp1.png");
-		System.out.println("Generata mappa numero: " + r);
+		try {
+			int r = (int) Math.floor(Math.random() * 10 + 1);
+			this.tm = new TileManager(this, "/maps/mp" + r + ".png");
+			System.out.println("Generata mappa numero: " + r);
+		} catch (Exception e) {
+			this.tm = new TileManager(this, "/maps/defaultMp.png");
+		}
 		this.cChecker = new CollisionChecker(this, comandi);
 		this.comandi = comandi;
 
@@ -64,33 +72,36 @@ public class PanelloDiGioco extends JPanel implements Runnable {
 		long lastTime = System.nanoTime();
 		long currentTime;
 		long timer = 0;
-		int drawCount = 0;
 
 		while (gameThread != null) {
 
 			currentTime = System.nanoTime();
 			delta += (currentTime - lastTime) / drawInterval;
-			timer += (currentTime - lastTime);
+			if (!player.vittoria && !comandi.giocoInPausa)
+				timer += (currentTime - lastTime);
 			lastTime = currentTime;
 
 			if (delta >= 1) {
 				update();
 				repaint();
 				delta--;
-				drawCount++;
+				if (player.vittoria)
+					animazioneVittoria();
 			}
 			if (timer > 1000000000) {
-				// System.out.println("FPS: " + drawCount);
-				drawCount = 0;
+				secCount++;
+				if (secCount % 60 == 0) {
+					minCount++;
+					secCount = 0;
+				}
 				timer = 0;
 			}
 		}
 	}
 
 	public void setObject() {
-		
-		this.ogg[0] = tm.pg.ogg[0];
-		this.ogg[1] = tm.pg.ogg[1];
+		for (int i = 0; i < tm.contOgg; i++)
+			this.ogg[i] = tm.pg.ogg[i];
 
 	}
 
@@ -113,17 +124,81 @@ public class PanelloDiGioco extends JPanel implements Runnable {
 
 		player.draw(g2);
 
+		testoTimer(g2);
 		if (comandi.giocoInPausa == true)
-			pausa(g2);
+			testoPausa(g2);
+		if (player.vittoria == true) {
+			testoVittoria(g2);
+		}
 		g2.dispose();
 	}
 
-	public void pausa(Graphics2D g) {
+	public void testoTimer(Graphics2D g) {
+		g.setFont(new Font("Arial", Font.PLAIN, 20));
+		g.setColor(new Color(0, 0, 0, 150));
+		if (minCount == 0) {
+			g.fillRect(20, 5, 40, 25);
+			g.setColor(Color.WHITE);
+			g.drawString(secCount + "s", 25, 25);
+		} else {
+			g.fillRect(20, 5, 80, 25);
+			g.setColor(Color.WHITE);
+			g.drawString(minCount + "m " + secCount + "s", 25, 25);
+		}
+	}
+
+	public void testoPausa(Graphics2D g) {
 		g.setColor(new Color(0, 0, 0, 100));
 		g.fillRect(0, 0, dim.lunghezzaSchermo, dim.altezzaSchermo);
 		g.setColor(Color.RED);
-		g.setFont(new Font("Times New Roman", Font.PLAIN, 100)); // Font.BOLD -> Grassetto; Font.Plain -> Normale
-		g.drawString("PAUSA", dim.lunghezzaSchermo / 2 - 150, 100);
+		g.setFont(new Font("Times New Roman", Font.PLAIN, 100));
+		g.drawString("PAUSA", dim.lunghezzaSchermo / 2 - 175, 100);
+		g.setColor(Color.WHITE);
+		g.setFont(new Font("Arial", Font.PLAIN, 25));
+		g.drawString("Premi 'e' per uscire", 275, 200);
 	}
 
+	public void testoVittoria(Graphics2D g) {
+		g.setColor(new Color(0, 0, 0, 100));
+		g.fillRect(0, 0, dim.lunghezzaSchermo, dim.altezzaSchermo);
+		g.setColor(Color.RED);
+		g.setFont(new Font("Times New Roman", Font.PLAIN, 100));
+		g.drawString("HAI VINTO", dim.lunghezzaSchermo / 2 - 250, 100);
+		g.setColor(Color.WHITE);
+		g.setFont(new Font("Arial", Font.PLAIN, 25));
+		if (minCount > 0) {
+			if (minCount > 1) {
+				if (secCount > 1)
+					g.drawString("Hai finito in " + minCount + " minuti e " + secCount + " secondi", 200, 150);
+				else
+					g.drawString("Hai finito in " + minCount + " minuti e " + secCount + " secondo", 200, 150);
+			} else {
+				if (secCount > 1)
+					g.drawString("Hai finito in " + minCount + " minuto e " + secCount + " secondi", 200, 150);
+				else
+					g.drawString("Hai finito in " + minCount + " minuto e " + secCount + " secondo", 200, 150);
+			}
+		} else
+			g.drawString("Hai finito in " + secCount + " secondi", 250, 150);
+		g.drawString("Premi 'e' per uscire", 275, 200);
+	}
+
+	public void animazioneVittoria() {
+		comandi.velocita = 2;
+		if (player.worldX < (dim.grandezzaInGioco * 23) || player.worldX > (dim.grandezzaInGioco * 23) + 2) {
+			if (player.worldX < (dim.grandezzaInGioco * 23))
+				comandi.destraPremuto = true;
+
+			if (player.worldX > (dim.grandezzaInGioco * 23) + 2)
+				comandi.sinistraPremuto = true;
+
+		} else {
+			comandi.destraPremuto = false;
+			comandi.sinistraPremuto = false;
+			if (player.worldY >= -(dim.grandezzaInGioco + (5 * dim.scala))) {
+				comandi.suPremuto = true;
+			} else
+				comandi.suPremuto = false;
+		}
+	}
 }
