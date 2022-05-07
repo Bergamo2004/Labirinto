@@ -1,4 +1,4 @@
-package tile;
+package model;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -7,13 +7,12 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import oggetto.*;
 import view.PanelloDiGioco;
 
 public class TileManager {
 	public PanelloDiGioco pg;
 	public Tile[] tile;
-	int mapTileNum[][];
+	public int mapTileNum[][];
 	public int contOgg;
 
 	public TileManager(PanelloDiGioco pg, String mappa) {

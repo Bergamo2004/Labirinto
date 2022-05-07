@@ -7,11 +7,9 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 
 import javax.swing.*;
-import controllo.*;
-import entity.Player;
-import oggetto.*;
-import tile.CollisionChecker;
-import tile.TileManager;
+
+import control.*;
+import model.*;
 
 @SuppressWarnings("serial")
 public class PanelloDiGioco extends JPanel implements Runnable {

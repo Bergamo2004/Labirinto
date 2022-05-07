@@ -1,4 +1,4 @@
-package entity;
+package model;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import controllo.Comandi;
+import control.Comandi;
 import view.Dimensioni;
 import view.PanelloDiGioco;
 

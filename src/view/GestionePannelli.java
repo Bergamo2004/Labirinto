@@ -8,7 +8,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import controllo.Comandi;
+import control.Comandi;
 
 @SuppressWarnings("serial")
 public class GestionePannelli extends JFrame implements ActionListener {

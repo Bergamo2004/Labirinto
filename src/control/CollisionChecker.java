@@ -1,8 +1,7 @@
-package tile;
+package control;
 
-import entity.Entity;
 import view.PanelloDiGioco;
-import controllo.*;
+import model.*;
 
 public class CollisionChecker {
 	PanelloDiGioco pg;

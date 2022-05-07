@@ -1,4 +1,4 @@
-package oggetto;
+package model;
 
 import java.io.IOException;
 
