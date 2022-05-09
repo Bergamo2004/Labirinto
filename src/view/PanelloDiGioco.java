@@ -9,7 +9,6 @@ import java.awt.Graphics2D;
 import javax.swing.*;
 
 import control.*;
-import main.Sound;
 import model.*;
 
 @SuppressWarnings("serial")
@@ -32,7 +31,7 @@ public class PanelloDiGioco extends JPanel implements Runnable {
 	public SuperOggetto ogg[];
 	public Comandi comandi;
 	public Menu menu;
-	Sound suoni=new Sound();
+	Sound suoni = new Sound();
 
 	public PanelloDiGioco(Dimensioni dimensioni, Comandi comandi) {
 
@@ -78,7 +77,7 @@ public class PanelloDiGioco extends JPanel implements Runnable {
 
 			currentTime = System.nanoTime();
 			delta += (currentTime - lastTime) / drawInterval;
-			if (!player.vittoria && !comandi.giocoInPausa)
+			if (!player.vittoria && !comandi.giocoInPausa && !(minCount > 98 && secCount > 58))
 				timer += (currentTime - lastTime);
 			lastTime = currentTime;
 
@@ -111,27 +110,21 @@ public class PanelloDiGioco extends JPanel implements Runnable {
 		player.update();
 	}
 
-	
-	
-	public void playmusica(int i)
-	{
+	public void playmusica(int i) {
 		suoni.setFile(i);
 		suoni.play();
 		suoni.loop();
 	}
-	
-	public void stopmusica()
-	{
+
+	public void stopmusica() {
 		suoni.stop();
 	}
-	public void effettosonoro(int i)
-	{
+
+	public void effettosonoro(int i) {
 		suoni.setFile(i);
 		suoni.play();
 	}
-	
-	
-	
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
