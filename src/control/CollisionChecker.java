@@ -32,7 +32,7 @@ public class CollisionChecker {
 				tileNum2 = pg.tm.mapTileNum[entityRightCol][entityTopRow];
 				if (pg.tm.tile[tileNum1].collision == true || pg.tm.tile[tileNum2].collision == true) {
 					entity.collisionOn = true;
-
+					entity.colSu = true;
 				}
 			}
 			if (com.giuPremuto) {
@@ -41,6 +41,7 @@ public class CollisionChecker {
 				tileNum2 = pg.tm.mapTileNum[entityRightCol][entityBottomRow];
 				if (pg.tm.tile[tileNum1].collision == true || pg.tm.tile[tileNum2].collision == true) {
 					entity.collisionOn = true;
+					entity.colGiu = true;
 				}
 			}
 			if (com.destraPremuto) {
@@ -49,6 +50,7 @@ public class CollisionChecker {
 				tileNum2 = pg.tm.mapTileNum[entityRightCol][entityBottomRow];
 				if (pg.tm.tile[tileNum1].collision == true || pg.tm.tile[tileNum2].collision == true) {
 					entity.collisionOn = true;
+					entity.colDestra = true;
 				}
 			}
 			if (com.sinistraPremuto) {
@@ -57,6 +59,7 @@ public class CollisionChecker {
 				tileNum2 = pg.tm.mapTileNum[entityLeftCol][entityBottomRow];
 				if (pg.tm.tile[tileNum1].collision == true || pg.tm.tile[tileNum2].collision == true) {
 					entity.collisionOn = true;
+					entity.colSinistra = true;
 				}
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
@@ -75,57 +78,58 @@ public class CollisionChecker {
 				pg.ogg[i].solidArea.x = pg.ogg[i].worldX + pg.ogg[i].solidArea.x;
 				pg.ogg[i].solidArea.y = pg.ogg[i].worldY + pg.ogg[i].solidArea.y;
 
-				switch (entity.direzione) {
-				case "su":
+				if (pg.comandi.suPremuto)
 					entity.solidArea.y -= entity.speed;
-					if (entity.solidArea.intersects(pg.ogg[i].solidArea)) {
-						if (pg.ogg[i].collision == true) {
-							entity.collisionOn = true;
-						}
-						if (player == true) {
-							index = i;
-						}
+				if (entity.solidArea.intersects(pg.ogg[i].solidArea)) {
+					if (pg.ogg[i].collision == true) {
+						entity.collisionOn = true;
+						entity.colSu = true;
 					}
-					break;
-				case "giu":
-					entity.solidArea.y += entity.speed;
-					if (entity.solidArea.intersects(pg.ogg[i].solidArea)) {
-						if (pg.ogg[i].collision == true) {
-							entity.collisionOn = true;
-						}
-						if (player == true) {
-							index = i;
-						}
+					if (player == true) {
+						index = i;
 					}
-					break;
-				case "sinistra":
-					entity.solidArea.x -= entity.speed;
-					if (entity.solidArea.intersects(pg.ogg[i].solidArea)) {
-						if (pg.ogg[i].collision == true) {
-							entity.collisionOn = true;
-						}
-						if (player == true) {
-							index = i;
-						}
-					}
-
-					break;
-				case "destra":
-					entity.solidArea.x += entity.speed;
-					if (entity.solidArea.intersects(pg.ogg[i].solidArea)) {
-						if (pg.ogg[i].collision == true) {
-							entity.collisionOn = true;
-						}
-						if (player == true) {
-							index = i;
-						}
-					}
-					break;
 				}
+				if (pg.comandi.giuPremuto)
+					entity.solidArea.y += entity.speed;
+				if (entity.solidArea.intersects(pg.ogg[i].solidArea)) {
+					if (pg.ogg[i].collision == true) {
+						entity.collisionOn = true;
+						entity.colGiu = true;
+					}
+					if (player == true) {
+						index = i;
+					}
+				}
+				if (pg.comandi.sinistraPremuto)
+					entity.solidArea.x -= entity.speed;
+				if (entity.solidArea.intersects(pg.ogg[i].solidArea)) {
+					if (pg.ogg[i].collision == true) {
+						entity.collisionOn = true;
+						entity.colSinistra = true;
+					}
+					if (player == true) {
+						index = i;
+					}
+				}
+
+				if (pg.comandi.destraPremuto)
+					entity.solidArea.x += entity.speed;
+				if (entity.solidArea.intersects(pg.ogg[i].solidArea)) {
+					if (pg.ogg[i].collision == true) {
+						entity.collisionOn = true;
+						entity.colDestra = true;
+					}
+					if (player == true) {
+						index = i;
+					}
+				}
+			}
+			try {
 				entity.solidArea.x = entity.solidAreaDefaultX;
 				entity.solidArea.y = entity.solidAreaDefaultY;
 				pg.ogg[i].solidArea.x = pg.ogg[i].solidAreaDefaultX;
 				pg.ogg[i].solidArea.y = pg.ogg[i].solidAreaDefaultY;
+			} catch (NullPointerException e) {
 			}
 		}
 		return index;

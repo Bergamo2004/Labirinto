@@ -87,53 +87,59 @@ public class Player extends Entity {
 			}
 
 			collisionOn = false;
-			pg.cChecker.checkTile(this);
-			pickupObject(pg.cChecker.checkObject(this, true));
-
-			if (collisionOn == false) {
-
-				int worldXCam = pg.dim.worldWidth - pg.dim.lunghezzaSchermo / 2 - (pg.dim.grandezzaInGioco / 2);
-				int worldYCam = pg.dim.worldHeight - pg.dim.altezzaSchermo / 2 - (pg.dim.grandezzaInGioco / 2);
-
-				if (com.suPremuto) {
-					if (worldY <= defaultScreenY || worldY >= worldYCam) {
-						worldY -= speed;
-						screenY -= speed;
-					} else {
-						worldY -= speed;
-						screenY = defaultScreenY;
-					}
-				}
-				if (com.giuPremuto) {
-					if (worldY <= defaultScreenY || worldY >= worldYCam) {
-						worldY += speed;
-						screenY += speed;
-					} else {
-						worldY += speed;
-						screenY = defaultScreenY;
-					}
-				}
-				if (com.destraPremuto) {
-					if (worldX <= defaultScreenX || worldX >= worldXCam) {
-						worldX += speed;
-						screenX += speed;
-					} else {
-						worldX += speed;
-						screenX = defaultScreenX;
-					}
-				}
-				if (com.sinistraPremuto) {
-					if (worldX <= defaultScreenX || worldX >= worldXCam) {
-						worldX -= speed;
-						screenX -= speed;
-					} else {
-						worldX -= speed;
-						screenX = defaultScreenX;
-					}
-				}
-				// System.out.println("Coord = X: " + worldX + ", Y: " + worldY);
+			colSu = false;
+			colGiu = false;
+			colDestra = false;
+			colSinistra = false;
+			if (!pg.comandi.sp) {
+				pg.cChecker.checkTile(this);
+				pickupObject(pg.cChecker.checkObject(this, true));
 			}
-			// Velocita animazione
+
+			// if (collisionOn == false) {
+
+			int worldXCam = pg.dim.worldWidth - pg.dim.lunghezzaSchermo / 2 - (pg.dim.grandezzaInGioco / 2);
+			int worldYCam = pg.dim.worldHeight - pg.dim.altezzaSchermo / 2 - (pg.dim.grandezzaInGioco / 2);
+
+			if (com.suPremuto && !colSu) {
+				if (worldY <= defaultScreenY || worldY >= worldYCam) {
+					worldY -= speed;
+					screenY -= speed;
+				} else {
+					worldY -= speed;
+					screenY = defaultScreenY;
+				}
+			}
+			if (com.giuPremuto && !colGiu) {
+				if (worldY <= defaultScreenY || worldY >= worldYCam) {
+					worldY += speed;
+					screenY += speed;
+				} else {
+					worldY += speed;
+					screenY = defaultScreenY;
+				}
+			}
+			if (com.destraPremuto && !colDestra) {
+				if (worldX <= defaultScreenX || worldX >= worldXCam) {
+					worldX += speed;
+					screenX += speed;
+				} else {
+					worldX += speed;
+					screenX = defaultScreenX;
+				}
+			}
+			if (com.sinistraPremuto && !colSinistra) {
+				if (worldX <= defaultScreenX || worldX >= worldXCam) {
+					worldX -= speed;
+					screenX -= speed;
+				} else {
+					worldX -= speed;
+					screenX = defaultScreenX;
+				}
+			}
+		}
+		// Velocita animazione
+		if (com.suPremuto || com.destraPremuto || com.sinistraPremuto || com.giuPremuto) {
 			if (collisionOn == false) {
 				spriteCounter++;
 				if (spriteCounter > 15) {

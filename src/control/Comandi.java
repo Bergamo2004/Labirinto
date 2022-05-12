@@ -10,6 +10,7 @@ public class Comandi implements KeyListener {
 	public boolean suPremuto, giuPremuto, sinistraPremuto, destraPremuto;
 	public int velocita = 4;
 	public boolean giocoInPausa = false;
+	public boolean sp = false;
 
 	private GestionePannelli gp;
 
@@ -63,6 +64,12 @@ public class Comandi implements KeyListener {
 		}
 		if (tasto == KeyEvent.VK_E && (gp.gamePanel.player.vittoria || giocoInPausa)) {
 			System.exit(0);
+		}
+		if (tasto == KeyEvent.VK_P) {
+			if (!sp)
+				sp = true;
+			else
+				sp = false;
 		}
 	}
 

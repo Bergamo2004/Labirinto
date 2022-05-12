@@ -12,10 +12,11 @@ public class Entity {
 
 	public int spriteCounter = 0;
 	public int spriteNum = 1;
-	
-	public int solidAreaDefaultX,solidAreaDefaultY;
+
+	public int solidAreaDefaultX, solidAreaDefaultY;
 
 	// Collisioni
 	public Rectangle solidArea;
 	public boolean collisionOn = false;
+	public boolean colSu, colGiu, colSinistra, colDestra;
 }
