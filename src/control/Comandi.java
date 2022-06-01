@@ -3,6 +3,8 @@ package control;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.JOptionPane;
+
 import view.GestionePannelli;
 
 public class Comandi implements KeyListener {
@@ -11,6 +13,7 @@ public class Comandi implements KeyListener {
 	public int velocita = 4;
 	public boolean giocoInPausa = false;
 	public boolean sp = false;
+	public boolean cheat = false;
 
 	private GestionePannelli gp;
 
@@ -66,10 +69,28 @@ public class Comandi implements KeyListener {
 			System.exit(0);
 		}
 		if (tasto == KeyEvent.VK_P) {
+			cheat = true;
 			if (!sp)
 				sp = true;
 			else
 				sp = false;
+		}
+		if (tasto == KeyEvent.VK_L) {
+			cheat = true;
+			suPremuto = false;
+			giuPremuto = false;
+			destraPremuto = false;
+			sinistraPremuto = false;
+			String s = JOptionPane.showInputDialog(gp, "Inserisci velocità");
+			if (s != null && s.equals("no")) {
+				JOptionPane.showMessageDialog(gp, "ok >:(");
+				velocita = 0;
+			}
+			try {
+				velocita = Integer.parseInt(s);
+			} catch (Exception e1) {
+
+			}
 		}
 	}
 

@@ -17,7 +17,7 @@ public class PanelloDiGioco extends JPanel implements Runnable {
 	// Dimensioni generali
 	public Dimensioni dim;
 
-	// FPS
+	// FP
 	private int fps = 60;
 
 	// Timer
@@ -67,8 +67,8 @@ public class PanelloDiGioco extends JPanel implements Runnable {
 
 	@Override
 	public void run() {
-		double drawInterval = 1000000000 / fps;
-		double delta = 0;
+		int drawInterval = (1000 / fps);
+		// System.out.println(drawInterval);
 		long lastTime = System.nanoTime();
 		long currentTime;
 		long timer = 0;
@@ -76,17 +76,18 @@ public class PanelloDiGioco extends JPanel implements Runnable {
 		while (gameThread != null) {
 
 			currentTime = System.nanoTime();
-			delta += (currentTime - lastTime) / drawInterval;
-			if (!player.vittoria && !comandi.giocoInPausa && !(minCount > 98 && secCount > 58))
+			if (!player.vittoria && !comandi.giocoInPausa && !(minCount > 98 && secCount > 58) && !comandi.cheat)
 				timer += (currentTime - lastTime);
 			lastTime = currentTime;
 
-			if (delta >= 1) {
-				update();
-				repaint();
-				delta--;
-				if (player.vittoria)
-					animazioneVittoria();
+			update();
+			repaint();
+			if (player.vittoria)
+				animazioneVittoria();
+			try {
+				Thread.sleep(drawInterval);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 			if (timer > 1000000000) {
 				secCount++;
@@ -138,8 +139,8 @@ public class PanelloDiGioco extends JPanel implements Runnable {
 		}
 
 		player.draw(g2);
-
-		testoTimer(g2);
+		if (!player.vittoria&&!comandi.cheat)
+			testoTimer(g2);
 		if (comandi.giocoInPausa == true)
 			testoPausa(g2);
 		if (player.vittoria == true) {
@@ -181,20 +182,22 @@ public class PanelloDiGioco extends JPanel implements Runnable {
 		g.drawString("HAI VINTO", dim.lunghezzaSchermo / 2 - 250, 100);
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Arial", Font.PLAIN, 25));
-		if (minCount > 0) {
-			if (minCount > 1) {
-				if (secCount > 1)
-					g.drawString("Hai finito in " + minCount + " minuti e " + secCount + " secondi", 200, 150);
-				else
-					g.drawString("Hai finito in " + minCount + " minuti e " + secCount + " secondo", 200, 150);
-			} else {
-				if (secCount > 1)
-					g.drawString("Hai finito in " + minCount + " minuto e " + secCount + " secondi", 200, 150);
-				else
-					g.drawString("Hai finito in " + minCount + " minuto e " + secCount + " secondo", 200, 150);
-			}
-		} else
-			g.drawString("Hai finito in " + secCount + " secondi", 250, 150);
+		if (!comandi.cheat) {
+			if (minCount > 0) {
+				if (minCount > 1) {
+					if (secCount > 1)
+						g.drawString("Hai finito in " + minCount + " minuti e " + secCount + " secondi", 200, 150);
+					else
+						g.drawString("Hai finito in " + minCount + " minuti e " + secCount + " secondo", 200, 150);
+				} else {
+					if (secCount > 1)
+						g.drawString("Hai finito in " + minCount + " minuto e " + secCount + " secondi", 200, 150);
+					else
+						g.drawString("Hai finito in " + minCount + " minuto e " + secCount + " secondo", 200, 150);
+				}
+			} else
+				g.drawString("Hai finito in " + secCount + " secondi", 250, 150);
+		}
 		g.drawString("Premi 'e' per uscire", 275, 200);
 	}
 
